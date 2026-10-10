@@ -18,6 +18,7 @@ function loadJS(FILE_URL, async = true) {
   });
 }
 
-window.addEventListener("load", function () {
-  loadJS("https://ubg235.pages.dev/js/ubg235_server_v1_2.js", true);
-});
+// Removed external server loader to prevent redirect
+// window.addEventListener("load", function () {
+//   loadJS("https://ubg235.pages.dev/js/ubg235_server_v1_2.js", true);
+// });
