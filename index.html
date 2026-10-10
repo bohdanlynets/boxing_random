@@ -2,42 +2,57 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Boxing Random Unblocked - ubg235 GameDistribution</title>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' blob: data:; frame-ancestors *; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob: data:; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:; media-src 'self' blob: data:; object-src 'none';">
+<title>Boxing Random Unblocked</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-
 <meta name="generator" content="Construct 3">
-
-	<link rel="manifest" href="appmanifest.json">
-
-
+<link rel="manifest" href="appmanifest.json">
 <link rel="stylesheet" href="style.css">
-
 <script>
 window.addEventListener("keydown", function(e) {
-    // space and arrow keys
     if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
         e.preventDefault();
     }
 }, false);
-</script>
 
+// Block all external redirects
+window.addEventListener('beforeunload', function(e) {
+  if (window.location.href !== window.initialUrl && !window.location.href.startsWith(window.location.origin)) {
+    e.preventDefault();
+    return false;
+  }
+});
+
+window.initialUrl = window.location.href;
+
+// Override window.open to prevent popups
+window.open = function() { return null; };
+
+// Override location changes
+Object.defineProperty(window, 'location', {
+  get: function() { return window.location; },
+  set: function(url) {
+    if (url.indexOf('gitlab') > -1 || url.indexOf('github') > -1) {
+      console.warn('[Security] Blocked external redirect to:', url);
+      return;
+    }
+    window.location = url;
+  }
+});
+</script>
 </head>
 <body style="overflow:hidden;">
 <div id="fb-root"></div>
-	<script src="box2d.wasm.js"></script>
-	<noscript>
-		<div id="notSupportedWrap">
-			<h2 id="notSupportedTitle">This content requires JavaScript</h2>
-			<p class="notSupportedMessage">JavaScript appears to be disabled. Please enable it to view this content.</p>
-		</div>
-	</noscript>
-	<script src="scripts/supportcheck.js"></script>
-	<script src="scripts/offlineclient.js"></script>
-	<script src="scripts/main.js"></script>
-	<script src="scripts/register-sw.js"></script>
-  <script src="js/analytics_ubg_v1_4.js"></script>
-  <script src="js/ubg235_client_v1_2.js"></script>
-
-  
+<script src="box2d.wasm.js"></script>
+<noscript>
+  <div id="notSupportedWrap">
+    <h2 id="notSupportedTitle">This content requires JavaScript</h2>
+    <p class="notSupportedMessage">JavaScript appears to be disabled. Please enable it to view this content.</p>
+  </div>
+</noscript>
+<script src="scripts/supportcheck.js"></script>
+<script src="scripts/offlineclient.js"></script>
+<script src="scripts/main.js"></script>
+<script src="scripts/register-sw.js"></script>
 </body>
 </html>
